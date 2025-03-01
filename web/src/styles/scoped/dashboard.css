@@ -1,0 +1,19 @@
+.dashboard-cards {
+  display: flex;
+  gap: calc(calc(24 / 16) * 1rem);
+  flex-wrap: wrap;
+  padding: calc(calc(24 / 16) * 1rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-cards > .mantine-Card-root {
+  flex-grow: 1;
+  min-width: fit-content;
+}
+
+.dashboard-cards > .mantine-Card-root em {
+  font-style: normal;
+  font-size: 1.5rem;
+  font-weight: 300;
+}

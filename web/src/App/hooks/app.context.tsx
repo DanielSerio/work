@@ -1,0 +1,4 @@
+interface AppContext {
+  companies: [];
+  categories: [];
+}

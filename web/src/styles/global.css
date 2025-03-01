@@ -2,3 +2,7 @@
 @import '@mantine/core/styles.css';
 @import "./route.animations.css";
 
+@import './page.css';
+@import "./nav.css";
+
+@import "./scoped/dashboard.css";

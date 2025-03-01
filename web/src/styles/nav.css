@@ -1,0 +1,58 @@
+.breadcrumb-nav,
+.date-navigator {
+  border-bottom: 1px solid;
+}
+
+.breadcrumb-nav {
+  padding: 0 24px;
+}
+
+.breadcrumb-nav,
+.date-navigator {
+  background: var(--mantine-color-dark-8);
+  height: calc(calc(36 / 16) * 1rem);
+  width: calc(100% + 48px);
+  transform: translateX(-24px);
+}
+
+.app-header,
+.breadcrumb-nav,
+.date-navigator {
+  border-color: var(--mantine-color-dark-6);
+}
+
+.app-header {
+  padding: 0 24px;
+}
+
+.breadcrumb-nav .mantine-Anchor-root {
+  font-size: 0.875rem;
+  line-height: calc(calc(32 / 16) * 1rem);
+  border: 1px solid transparent;
+}
+
+.date-navigator .nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  padding: 0 24px;  
+}
+
+.date-navigator .nav-btn,
+.manual-date-btn {
+  font-weight: 300;
+  opacity: 0.75;
+}
+
+.date-navigator .nav-btn:hover,
+.manual-date-btn:hover {
+  opacity: 1;
+}
+
+.date-navigator .nav-btn:hover {
+  background: var(--mantine-color-dark-5);
+}
+
