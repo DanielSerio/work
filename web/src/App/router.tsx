@@ -4,6 +4,7 @@ import {
   createRoute,
   createRouter,
   Outlet,
+  redirect,
 } from "@tanstack/react-router";
 
 import { CategoriesPage } from "#pages/CategoriesPage";
@@ -13,10 +14,20 @@ import { EntryPage } from "#pages/EntryPage";
 import { ReportPage } from "#pages/ReportPage";
 import { Shell } from "#components/layout/Shell";
 import { TemplatesPage } from "#pages/TemplatesPage";
+import { isValid } from "date-fns";
 
 const hashHistory = createHashHistory();
 
 const rootRoute = createRootRoute({
+  loader: (ctx) => {
+    const params = ctx.params as any;
+
+    if (!!params.entryDate && !isValid(new Date(params.entryDate))) {
+      throw redirect({
+        to: "/#/",
+      });
+    }
+  },
   component: () => {
     return (
       <Shell>
@@ -73,4 +84,7 @@ const routeTree = rootRoute.addChildren([
   templatesRoute,
 ]);
 
-export const router = createRouter({ routeTree, history: hashHistory });
+export const router = createRouter({
+  routeTree,
+  history: hashHistory,
+});
