@@ -1,8 +1,9 @@
 import { Page } from "#components/layout/Page";
 import { BreadcrumbNav } from "#components/navigation/BreadcrumbNav";
-import { Anchor, Breadcrumbs } from "@mantine/core";
+import { useCompanyList } from "#hooks/queries";
 
 export function CompaniesPage() {
+  const companiesQuery = useCompanyList();
   return (
     <Page>
       <BreadcrumbNav />
