@@ -3,42 +3,58 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
+  Outlet,
 } from "@tanstack/react-router";
+
+import { CategoriesPage } from "#pages/CategoriesPage";
+import { CompaniesPage } from "#pages/CompaniesPage";
+import { DashboardPage } from "#pages/DashboardPage";
+import { EntryPage } from "#pages/EntryPage";
+import { ReportPage } from "#pages/ReportPage";
+import { AppShell } from "@mantine/core";
 
 const hashHistory = createHashHistory();
 
-const rootRoute = createRootRoute();
+const rootRoute = createRootRoute({
+  component: () => {
+    return (
+      <AppShell>
+        <Outlet />
+      </AppShell>
+    );
+  },
+});
 
 const getParentRoute = () => rootRoute;
 
 const dashboardRoute = createRoute({
   getParentRoute,
   path: "/",
-  component: () => <>Dashboard</>,
+  component: DashboardPage,
 });
 
 const companiesRoute = createRoute({
   getParentRoute,
   path: "/companies",
-  component: () => <>Companies</>,
+  component: CompaniesPage,
 });
 
 const categoriesRoute = createRoute({
   getParentRoute,
   path: "/categories",
-  component: () => <>Categories</>,
+  component: CategoriesPage,
 });
 
 const reportRoute = createRoute({
   getParentRoute,
   path: "/report/:entryDate",
-  component: () => <>Report</>,
+  component: ReportPage,
 });
 
 const entryRoute = createRoute({
   getParentRoute,
   path: "/enter/:entryDate",
-  component: () => <>Entry</>,
+  component: EntryPage,
 });
 
 const routeTree = rootRoute.addChildren([

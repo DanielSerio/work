@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from "react";
 import { createTheme, MantineProvider } from "@mantine/core";
-import { primary, secondary, grey } from "./theme";
 import { RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { primary, secondary, grey } from "./theme";
 import { router } from "./router";
 
 const THEME = createTheme({
