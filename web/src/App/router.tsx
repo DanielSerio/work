@@ -11,16 +11,17 @@ import { CompaniesPage } from "#pages/CompaniesPage";
 import { DashboardPage } from "#pages/DashboardPage";
 import { EntryPage } from "#pages/EntryPage";
 import { ReportPage } from "#pages/ReportPage";
-import { AppShell } from "@mantine/core";
+import { Shell } from "#components/layout/Shell";
+import { TemplatesPage } from "#pages/TemplatesPage";
 
 const hashHistory = createHashHistory();
 
 const rootRoute = createRootRoute({
   component: () => {
     return (
-      <AppShell>
+      <Shell>
         <Outlet />
-      </AppShell>
+      </Shell>
     );
   },
 });
@@ -47,14 +48,20 @@ const categoriesRoute = createRoute({
 
 const reportRoute = createRoute({
   getParentRoute,
-  path: "/report/:entryDate",
+  path: "/report/$entryDate",
   component: ReportPage,
 });
 
 const entryRoute = createRoute({
   getParentRoute,
-  path: "/enter/:entryDate",
+  path: "/entry/$entryDate",
   component: EntryPage,
+});
+
+const templatesRoute = createRoute({
+  getParentRoute,
+  path: "/templates",
+  component: TemplatesPage,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -63,6 +70,7 @@ const routeTree = rootRoute.addChildren([
   categoriesRoute,
   reportRoute,
   entryRoute,
+  templatesRoute,
 ]);
 
 export const router = createRouter({ routeTree, history: hashHistory });
