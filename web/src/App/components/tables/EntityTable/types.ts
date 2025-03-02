@@ -1,3 +1,5 @@
+import type { useFocusedEntity } from "#hooks/state/useFocusedEntity";
+import type { useSelectedEntityRows } from "#hooks/state/useSelectedEntityRows";
 import type { AreaHTMLAttributes } from "react";
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
 import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
@@ -23,6 +25,8 @@ export type EntityTableColumn<RecordType extends CompanyEntity | CategoryEntity>
 export type EntityTableProps<RecordType extends CompanyEntity | CategoryEntity> = {
   isLoading?: boolean;
   records?: RecordType[];
+  entityFocusController: ReturnType<typeof useFocusedEntity<RecordType, EntityTableColumn<RecordType>>>;
+  selectedRowsController: ReturnType<typeof useSelectedEntityRows>;
 };
 
 export type EntityTableRowProps<RecordType extends CompanyEntity | CategoryEntity> = AreaHTMLAttributes<HTMLAreaElement> & {

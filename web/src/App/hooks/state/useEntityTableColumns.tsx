@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
 import type { EntityTableColumn } from "#components/tables/EntityTable/types";
-import { formatDistance } from "date-fns";
+import { formatDistance, isValid } from "date-fns";
 
 export function useEntityTableColumns<
   RecordType extends CompanyEntity | CategoryEntity,
@@ -13,7 +13,7 @@ export function useEntityTableColumns<
   >([
     {
       oid: "select",
-      header: "",
+      header: "🗑️",
       width: 5,
     },
     {
@@ -31,9 +31,13 @@ export function useEntityTableColumns<
       header: "Created",
       width: 20,
       transformValue(value) {
-        return formatDistance(new Date(value.replace("Z", "")), new Date(), {
-          addSuffix: true,
-        });
+        return formatDistance(
+          new Date(),
+          new Date(value.replace(/[TZ]/g, " ")),
+          {
+            addSuffix: true,
+          }
+        );
       },
     },
     {
@@ -41,9 +45,17 @@ export function useEntityTableColumns<
       header: "Updated",
       width: 20,
       transformValue(value) {
-        return formatDistance(new Date(value.replace("Z", "")), new Date(), {
-          addSuffix: true,
-        });
+        if (value === null || !isValid(value)) {
+          return "";
+        }
+
+        return formatDistance(
+          new Date(),
+          new Date(value.replace(/[TZ]/g, " ")),
+          {
+            addSuffix: true,
+          }
+        );
       },
     },
   ]);
@@ -131,9 +143,17 @@ export function useEntityTableColumns<
     [_setColumnIds]
   );
 
+  const setFromList = useCallback(
+    (values: string[]) => {
+      _setColumnIds(values);
+    },
+    [_setColumnIds]
+  );
+
   const methods = {
     activateColumn,
     deactivateColumn,
+    setFromList,
   };
 
   return {

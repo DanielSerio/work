@@ -18,6 +18,7 @@ export function EntityTableHeader<
             <span
               key={String(col.oid ?? col.id ?? col.header)}
               className="table-col"
+              data-align={col.oid === "select" ? "center" : null}
             >
               <span>{col.header}</span>
             </span>

@@ -1,0 +1,11 @@
+a:has(.logo) {
+  text-decoration: none;
+}
+
+.logo span:first-child {
+  color: var(--mantine-color-primary-text);
+}
+
+.logo span:last-child {
+  color: white;
+}

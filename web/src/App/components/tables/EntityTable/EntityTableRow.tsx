@@ -1,7 +1,7 @@
 import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
 import type { EntityTableRowProps } from "./types";
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import { Skeleton } from "@mantine/core";
+import { Checkbox, Skeleton } from "@mantine/core";
 
 export function EntityTableRow<
   RecordType extends CompanyEntity | CategoryEntity,
@@ -20,6 +20,21 @@ export function EntityTableRow<
     >
       {columns.map((col) => {
         let printValue = `${(record as any)[col.id]}`;
+
+        if (col.oid === "select") {
+          return (
+            <label
+              key={"select"}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Checkbox size="xs" />
+            </label>
+          );
+        }
 
         if (col.transformValue) {
           printValue = col.transformValue(printValue);

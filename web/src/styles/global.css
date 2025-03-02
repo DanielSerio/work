@@ -4,6 +4,8 @@
 
 @import './page.css';
 @import "./nav.css";
+@import './logo.css';
+@import "./tables/base.css";
 @import "./tables/entity-table.css";
 
 @import "./scoped/dashboard.css";
