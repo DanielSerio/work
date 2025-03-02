@@ -8,7 +8,6 @@ import { EntityTableRow, EntityTableRowSkeleton } from "./EntityTableRow";
 import type { EntityTableProps } from "./types";
 import { Chip, Group, Modal } from "@mantine/core";
 import { Fragment, useEffect, useState } from "react";
-import { EntityFilterButton } from "./EntityFilterButton";
 import { EntityMenuButton } from "./EntityMenuButton";
 import { EntityTrashSelectButton } from "./EntityTrashSelectButton";
 
@@ -17,9 +16,15 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
   selectedRowsController,
   isLoading,
   records,
+  onDeleteSelected,
 }: EntityTableProps<RecordType>) {
-  const { isSelectMode, selectedEntityIDs, startSelectMode, stopSelectMode } =
-    selectedRowsController;
+  const {
+    isSelectMode,
+    selectedEntityIDs,
+    startSelectMode,
+    stopSelectMode,
+    toggleEntityRow,
+  } = selectedRowsController;
 
   const { allColumns, activeColumns, methods } =
     useEntityTableColumns<RecordType>();
@@ -75,12 +80,13 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
         <header>
           <div className="table-toolbar">
             <EntityTrashSelectButton
-              onClick={() => {
-                if (!isSelectMode) {
-                  startSelectMode();
-                } else {
-                  stopSelectMode((v) => console.warn(v));
-                }
+              isSelectMode={isSelectMode}
+              onStart={() => startSelectMode()}
+              onCancel={() => stopSelectMode((v) => console.warn(v))}
+              onExecute={() => {
+                stopSelectMode((v) => {
+                  onDeleteSelected(selectedEntityIDs);
+                });
               }}
             />
             <EntityMenuButton onClick={() => setMenuIsOpen(true)} />
@@ -128,6 +134,8 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
                   onRowActivate={(record, col) =>
                     entityFocusController.focusEntity(record, col)
                   }
+                  isSelected={selectedEntityIDs.includes(record.id)}
+                  onSelectionChange={(record) => toggleEntityRow(record.id)}
                   columns={activeColumns}
                   gridColumns={gridColumns}
                   record={record}

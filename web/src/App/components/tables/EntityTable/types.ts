@@ -27,13 +27,16 @@ export type EntityTableProps<RecordType extends CompanyEntity | CategoryEntity> 
   records?: RecordType[];
   entityFocusController: ReturnType<typeof useFocusedEntity<RecordType, EntityTableColumn<RecordType>>>;
   selectedRowsController: ReturnType<typeof useSelectedEntityRows>;
+  onDeleteSelected: (ids: number[]) => void;
 };
 
 export type EntityTableRowProps<RecordType extends CompanyEntity | CategoryEntity> = AreaHTMLAttributes<HTMLAreaElement> & {
   gridColumns: string;
+  isSelected: boolean;
   columns: EntityTableColumn<RecordType>[];
   record: RecordType;
   onRowActivate: (record: RecordType, column: EntityTableColumn<RecordType>) => void;
+  onSelectionChange: (record: RecordType, isSelected: boolean) => void;
 };
 
 export type EntityTableHeaderRowProps<RecordType extends CompanyEntity | CategoryEntity> = AreaHTMLAttributes<HTMLAreaElement> & {

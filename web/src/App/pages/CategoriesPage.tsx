@@ -1,17 +1,20 @@
 import { Page } from "#components/layout/Page";
 import { BreadcrumbNav } from "#components/navigation/BreadcrumbNav";
 import { EntityTable } from "#components/tables/EntityTable/EntityTable";
-import type { EntityTableColumn } from "#components/tables/EntityTable/types";
+import { useDeleteMany } from "#hooks/mutations/useDeleteMany";
 import { useSimpleEntityOperations } from "#hooks/mutations/useSimpleEntityOperations";
 import { useCategoryList } from "#hooks/queries";
 import { useFocusedEntity } from "#hooks/state/useFocusedEntity";
 import { useSelectedEntityRows } from "#hooks/state/useSelectedEntityRows";
 import { Drawer, TextInput } from "@mantine/core";
+
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
+import type { EntityTableColumn } from "#components/tables/EntityTable/types";
 
 export function CategoriesPage() {
   const categoriesQuery = useCategoryList();
   const operations = useSimpleEntityOperations("categories");
+  const deleteManyOperation = useDeleteMany("categories");
   const entityFocusController = useFocusedEntity<
     CategoryEntity,
     EntityTableColumn<CategoryEntity>
@@ -47,6 +50,9 @@ export function CategoriesPage() {
         isLoading={categoriesQuery.isLoading}
         entityFocusController={entityFocusController}
         selectedRowsController={selectedRowsController}
+        onDeleteSelected={(ids) => {
+          deleteManyOperation.mutateAsync(ids);
+        }}
       />
     </Page>
   );

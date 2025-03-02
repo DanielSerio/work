@@ -9,7 +9,9 @@ export function EntityTableRow<
   gridColumns,
   columns,
   record,
+  isSelected,
   onRowActivate,
+  onSelectionChange,
 }: EntityTableRowProps<RecordType>) {
   return (
     <div
@@ -31,7 +33,11 @@ export function EntityTableRow<
                 justifyContent: "center",
               }}
             >
-              <Checkbox size="xs" />
+              <Checkbox
+                size="xs"
+                checked={isSelected}
+                onChange={(e) => onSelectionChange(record, e.target.checked)}
+              />
             </label>
           );
         }
@@ -60,7 +66,7 @@ export function EntityTableRowSkeleton<
   gridColumns,
 }: Omit<
   EntityTableRowProps<RecordType>,
-  "record" | "columns" | "onRowActivate"
+  "record" | "columns" | "onRowActivate" | "onSelectionChange" | "isSelected"
 >) {
   return (
     <div
