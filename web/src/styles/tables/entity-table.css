@@ -1,0 +1,84 @@
+html:has(.entity-table) {
+  overflow: hidden;
+}
+
+.table-wrapper,
+.table-wrapper .table-body,
+.table-wrapper .table-toolbar {
+  display: flex;
+}
+
+.table-wrapper,
+.table-wrapper .table-body {
+  position: relative;
+  flex-direction: column;
+}
+
+.table-wrapper .table-toolbar, 
+.entity-table .table-col {
+  padding: 6px;
+}
+
+.table-wrapper {
+  font-size: calc(calc(12 / 16) * 1rem);
+  max-height: calc(100svh - 96px);
+}
+
+.table-wrapper .table-toolbar {
+  height: calc(calc(48 / 16) * 1rem);
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.table-wrapper .table-body {
+  overflow-y: auto;
+  max-height: calc(100% - 72px);
+}
+
+.entity-table {
+  padding-top: 72px;
+}
+
+.entity-table > header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.entity-table-row {
+  display: grid;
+}
+
+.table-col {
+  text-align: left;
+}
+
+.table-col.pseudo-link {
+  background: transparent;
+  border: none;
+  color: var(--mantine-color-secondary-text);
+}
+
+.entity-table-row:hover .table-col.pseudo-link{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.table-col[data-align="center"] {
+  text-align: center;
+}
+
+.table-col[data-align="right"] {
+  text-align: right;
+}
+
+.entity-table-row.header {
+  height: 24px;
+}
+

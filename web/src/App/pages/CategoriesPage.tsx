@@ -1,5 +1,6 @@
 import { Page } from "#components/layout/Page";
 import { BreadcrumbNav } from "#components/navigation/BreadcrumbNav";
+import { EntityTable } from "#components/tables/EntityTable/EntityTable";
 import { useSimpleEntityOperations } from "#hooks/mutations/useSimpleEntityOperations";
 import { useCategoryList } from "#hooks/queries";
 
@@ -10,7 +11,10 @@ export function CategoriesPage() {
   return (
     <Page>
       <BreadcrumbNav />
-      <div>CategoriesPage</div>
+      <EntityTable
+        records={categoriesQuery.data}
+        isLoading={categoriesQuery.isLoading}
+      />
     </Page>
   );
 }

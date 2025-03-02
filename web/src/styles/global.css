@@ -4,5 +4,6 @@
 
 @import './page.css';
 @import "./nav.css";
+@import "./tables/entity-table.css";
 
 @import "./scoped/dashboard.css";
