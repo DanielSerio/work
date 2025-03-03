@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
+import type { CategoryEntity } from "#lib/types/models/category/entity.types";
+import type { CompanyEntity } from "#lib/types/models/company/entity.types";
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { z } from "zod";

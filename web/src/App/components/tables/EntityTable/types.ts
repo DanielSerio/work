@@ -3,8 +3,8 @@ import type { useCreateEntity } from "#hooks/state/useCreateEntity";
 import type { useFocusedEntity } from "#hooks/state/useFocusedEntity";
 import type { useSelectedEntityRows } from "#hooks/state/useSelectedEntityRows";
 import type { AreaHTMLAttributes } from "react";
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
+import type { CategoryEntity } from "#lib/types/models/category/entity.types";
+import type { CompanyEntity } from "#lib/types/models/company/entity.types";
 
 export type EntityTableRecordColumn<RecordType extends CompanyEntity | CategoryEntity> = {
   header: string;

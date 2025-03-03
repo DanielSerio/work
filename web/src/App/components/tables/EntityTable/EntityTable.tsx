@@ -7,8 +7,8 @@ import { EntityTableRow, EntityTableRowSkeleton } from "./EntityTableRow";
 import { EntityTrashSelectButton } from "./EntityTrashSelectButton";
 import { EntityTableColumnsModal } from "./EntityTableColumnsModal";
 import { EntityTableMenu } from "./EntityTableMenu";
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
+import type { CategoryEntity } from "#lib/types/models/category/entity.types";
+import type { CompanyEntity } from "#lib/types/models/company/entity.types";
 import type { EntityTableProps } from "./types";
 import { EntityTableCreateNewModal } from "./EntityTableCreateNewModal";
 

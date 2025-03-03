@@ -1,7 +1,7 @@
 import { TZDate } from "@date-fns/tz";
 import { Card } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
-import { dateStamp } from "src/lib/utilities/datetime";
+import { dateStamp } from "#lib/utilities/datetime";
 
 export function DashboardActionsCard() {
   const today = new TZDate(new Date(), "America/New_York");

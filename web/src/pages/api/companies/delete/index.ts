@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { CategoriesTable, db, inArray, NOW } from "astro:db";
+import { CompaniesTable, db, inArray, NOW } from "astro:db";
 import type { AppClientError } from "#lib/types/error/app-error.types";
 import { createError } from "#lib/utilities/error";
 
@@ -7,10 +7,10 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const entityIDs = await request.json();
 
-    const results = await db.update(CategoriesTable).set({
+    const results = await db.update(CompaniesTable).set({
       deletedAt: NOW
     }).where(
-      inArray(CategoriesTable.id, entityIDs)
+      inArray(CompaniesTable.id, entityIDs)
     ).returning();
 
     if (results.length < 1) {

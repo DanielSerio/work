@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { CODED_ENTITY_SCHEMA } from "src/lib/utilities/entity/coded-entity.schema";
+import { CODED_ENTITY_SCHEMA } from "#lib/utilities/entity/coded-entity.schema";
 
 export function useCreateEntity() {
   return useForm({
