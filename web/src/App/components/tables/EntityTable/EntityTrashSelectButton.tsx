@@ -16,8 +16,8 @@ export function EntityTrashSelectButton({
   onCancel,
   isSelectMode,
 }: TrashSelectButtonProps) {
-  const Icon = lazy(getLazyIcon("IconTrash"));
-  const XIcon = lazy(getLazyIcon("IconX"));
+  const Icon = lazy(getLazyIcon("TbTrash"));
+  const XIcon = lazy(getLazyIcon("TbX"));
 
   if (!isSelectMode) {
     return (

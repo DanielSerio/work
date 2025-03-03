@@ -7,5 +7,6 @@
 @import './logo.css';
 @import "./tables/base.css";
 @import "./tables/entity-table.css";
+@import "./form.css";
 
 @import "./scoped/dashboard.css";

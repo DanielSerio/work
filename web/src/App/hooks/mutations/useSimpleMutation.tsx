@@ -11,20 +11,60 @@ type UseSimpleMutation<
 
 type MutationFnParams<Type extends "create" | "update" | "delete"> = [
   Type extends "delete"
-    ? { code: string; retypeCode: string }
-    : { code: string; name: string },
+    ? { id: number | null; code: string; retypeCode: string }
+    : { id: number; code: string; name: string },
 ];
 
-async function createEntity(...params: MutationFnParams<"create">) {
-  //TODO: this
-}
+function getMethods(endpoint: "companies" | "categories") {
+  async function createEntity(...params: MutationFnParams<"create">) {
+    const [body] = params;
 
-async function updateEntity(...params: MutationFnParams<"update">) {
-  //TODO: this
-}
+    const response = await fetch(`/api/${endpoint}`, {
+      method: "POST",
+      body: JSON.stringify({
+        code: body.code,
+        name: body.name,
+      }),
+    });
 
-async function deleteEntity(...params: MutationFnParams<"delete">) {
-  //TODO: this
+    return response.json();
+  }
+
+  async function updateEntity(...params: MutationFnParams<"update">) {
+    const [body] = params;
+
+    if (body.id) {
+      const response = await fetch(`/api/${endpoint}/${body.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          code: body.code,
+          name: body.name,
+        }),
+      });
+      return response.json();
+    }
+
+    return {};
+  }
+
+  async function deleteEntity(...params: MutationFnParams<"delete">) {
+    const [body] = params;
+
+    if (body.id) {
+      const response = await fetch(`/api/${endpoint}/${body.id}`, {
+        method: "DELETE",
+      });
+      return response.json();
+    }
+
+    return {};
+  }
+
+  return {
+    createEntity,
+    updateEntity,
+    deleteEntity,
+  };
 }
 
 export function useSimpleMutation<
@@ -36,13 +76,15 @@ export function useSimpleMutation<
     | "CATEGORIES_CREATE";
   const KEYS = MUTATION_KEYS[KEYNAME];
 
+  const { createEntity, updateEntity, deleteEntity } = getMethods(entity);
+
   return useMutation({
     mutationKey: KEYS,
     async mutationFn(...params: MutationFnParams<Type>) {
       if (type === "create") {
         return await createEntity(...(params as MutationFnParams<"create">));
       } else if (type === "update") {
-        return await createEntity(...(params as MutationFnParams<"update">));
+        return await updateEntity(...(params as MutationFnParams<"update">));
       } else if (type === "delete") {
         return await deleteEntity(...(params as MutationFnParams<"delete">));
       }

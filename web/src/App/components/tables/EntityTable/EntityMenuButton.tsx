@@ -5,7 +5,7 @@ import { lazy, Suspense, type ButtonHTMLAttributes } from "react";
 export function EntityMenuButton({
   onClick,
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
-  const Icon = lazy(getLazyIcon("IconDotsVertical"));
+  const Icon = lazy(getLazyIcon("TbDotsVertical"));
   return (
     <Button
       size="sm"
