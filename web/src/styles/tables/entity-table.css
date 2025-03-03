@@ -24,3 +24,7 @@
   height: 24px;
 }
 
+
+.entity-table > header > .table-toolbar {
+  position: relative;
+}

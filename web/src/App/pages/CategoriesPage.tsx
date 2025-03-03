@@ -27,6 +27,12 @@ export function CategoriesPage() {
     await entityFocusController.clearFocus();
   };
 
+  //TODO: Toast when below fails
+  const handleDelete = async (ids: number[]) => {
+    await deleteManyOperation.mutateAsync(ids);
+    await categoriesQuery.refetch();
+  };
+
   return (
     <Page>
       <Drawer
@@ -94,9 +100,7 @@ export function CategoriesPage() {
         isLoading={categoriesQuery.isLoading}
         entityFocusController={entityFocusController}
         selectedRowsController={selectedRowsController}
-        onDeleteSelected={(ids) => {
-          deleteManyOperation.mutateAsync(ids);
-        }}
+        onDeleteSelected={(ids) => handleDelete(ids)}
       />
     </Page>
   );
