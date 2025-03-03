@@ -1,6 +1,6 @@
 import { Button, Flex } from "@mantine/core";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { getNextDateStamp, getPrevDateStamp } from "src/lib/utilities/datetime";
+import { getNextDateStamp, getPrevDateStamp } from "#lib/utilities/datetime";
 
 export function DateNavigator({ baseURL }: { baseURL: string }) {
   const routerState = useRouterState();

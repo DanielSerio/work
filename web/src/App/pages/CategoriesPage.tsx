@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { notifications } from "@mantine/notifications";
 import { Button, Drawer, Flex, Loader, TextInput } from "@mantine/core";
 
 import { Page } from "#components/layout/Page";
@@ -10,11 +8,11 @@ import { useSimpleEntityOperations } from "#hooks/mutations/useSimpleEntityOpera
 import { useCategoryList } from "#hooks/queries";
 import { useFocusedEntity } from "#hooks/state/useFocusedEntity";
 import { useSelectedEntityRows } from "#hooks/state/useSelectedEntityRows";
-
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import type { EntityTableColumn } from "#components/tables/EntityTable/types";
 import { useCreateEntity } from "#hooks/state/useCreateEntity";
 import { useEntityNotifications } from "#hooks/state/useEntityNotifications";
+
+import type { CategoryEntity } from "#lib/types/models/category/entity.types";
+import type { EntityTableColumn } from "#components/tables/EntityTable/types";
 
 export function CategoriesPage() {
   const categoriesQuery = useCategoryList();

@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
 import { CategoriesTable, db, eq, NOW } from "astro:db";
-import type { AppClientError } from "src/lib/types/error/app-error.types";
-import { getEntityParam, parseCodedEntity } from "src/lib/utilities/entity";
-import { createError } from "src/lib/utilities/error";
+import type { AppClientError } from "#lib/types/error/app-error.types";
+import { getEntityParam, parseCodedEntity } from "#lib/utilities/entity";
+import { createError } from "#lib/utilities/error";
 
 export const PATCH: APIRoute<any, { id: string; }> = async ({ request, params }) => {
   try {

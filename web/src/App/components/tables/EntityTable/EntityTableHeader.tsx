@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 
 import type { EntityTableHeaderRowProps } from "./types";
-import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
+import type { CompanyEntity } from "#lib/types/models/company/entity.types";
+import type { CategoryEntity } from "#lib/types/models/category/entity.types";
 
 export function EntityTableHeader<
   RecordType extends CompanyEntity | CategoryEntity,

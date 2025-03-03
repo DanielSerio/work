@@ -1,4 +1,4 @@
-import type { AppClientError } from "src/lib/types/error/app-error.types";
+import type { AppClientError } from "#lib/types/error/app-error.types";
 
 export function getEntityParam(value: string): number {
   if (value === '' || isNaN(+value) || +value % 1 !== 0) {

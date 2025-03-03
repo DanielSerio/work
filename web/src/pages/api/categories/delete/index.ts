@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { CategoriesTable, db, inArray, NOW } from "astro:db";
-import type { AppClientError } from "src/lib/types/error/app-error.types";
-import { createError } from "src/lib/utilities/error";
+import type { AppClientError } from "#lib/types/error/app-error.types";
+import { createError } from "#lib/utilities/error";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
