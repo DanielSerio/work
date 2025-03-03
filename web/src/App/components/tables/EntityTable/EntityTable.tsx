@@ -10,12 +10,17 @@ import { EntityTableMenu } from "./EntityTableMenu";
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
 import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
 import type { EntityTableProps } from "./types";
+import { EntityTableCreateNewModal } from "./EntityTableCreateNewModal";
 
 export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
   entityFocusController,
   selectedRowsController,
   isLoading,
+  entity,
   records,
+  createController,
+  operations,
+  onCreate,
   onDeleteSelected,
 }: EntityTableProps<RecordType>) {
   const {
@@ -53,6 +58,14 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
 
   return (
     <>
+      <EntityTableCreateNewModal
+        operations={operations}
+        entity={entity}
+        openMenuID={openMenuID}
+        onCreate={onCreate}
+        createForm={createController}
+        closeModal={closeModal}
+      />
       <EntityTableColumnsModal
         openMenuID={openMenuID}
         allColumns={allColumns}

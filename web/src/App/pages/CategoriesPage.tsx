@@ -10,6 +10,7 @@ import { Button, Drawer, Flex, Loader, TextInput } from "@mantine/core";
 
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
 import type { EntityTableColumn } from "#components/tables/EntityTable/types";
+import { useCreateEntity } from "#hooks/state/useCreateEntity";
 
 export function CategoriesPage() {
   const categoriesQuery = useCategoryList();
@@ -19,9 +20,20 @@ export function CategoriesPage() {
     CategoryEntity,
     EntityTableColumn<CategoryEntity>
   >();
+  const createForm = useCreateEntity();
   const selectedRowsController = useSelectedEntityRows();
 
-  const handleUpdateSubmit = async () => {
+  const handleCreate = async () => {
+    await operations.create.mutateAsync({
+      id: -1,
+      code: createForm.values.code,
+      name: createForm.values.name,
+    });
+    await categoriesQuery.refetch();
+    createForm.reset();
+  };
+
+  const handleUpdate = async () => {
     await operations.update.mutateAsync(entityFocusController.form.values);
     await categoriesQuery.refetch();
     await entityFocusController.clearFocus();
@@ -83,7 +95,7 @@ export function CategoriesPage() {
               !entityFocusController.form.isValid() ||
               operations.update.isPending
             }
-            onClick={handleUpdateSubmit}
+            onClick={handleUpdate}
           >
             <span>Save</span>
             {!!operations.update.isPending && (
@@ -96,10 +108,14 @@ export function CategoriesPage() {
       </Drawer>
       <BreadcrumbNav />
       <EntityTable
+        entity="categories"
+        operations={operations}
         records={categoriesQuery.data}
         isLoading={categoriesQuery.isLoading}
         entityFocusController={entityFocusController}
         selectedRowsController={selectedRowsController}
+        createController={createForm}
+        onCreate={handleCreate}
         onDeleteSelected={(ids) => handleDelete(ids)}
       />
     </Page>
