@@ -1,5 +1,6 @@
 
 @import '@mantine/core/styles.css';
+@import '@mantine/notifications/styles.css';
 @import "./route.animations.css";
 
 @import './page.css';

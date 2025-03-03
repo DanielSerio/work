@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { createTheme, MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { RouterProvider } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -22,6 +23,7 @@ function AppProviders({ children }: PropsWithChildren) {
   return (
     <MantineProvider theme={THEME} defaultColorScheme="dark">
       <QueryClientProvider client={QC}>{children}</QueryClientProvider>
+      <Notifications />
     </MantineProvider>
   );
 }

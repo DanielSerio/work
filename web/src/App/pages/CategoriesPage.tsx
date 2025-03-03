@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { notifications } from "@mantine/notifications";
+import { Button, Drawer, Flex, Loader, TextInput } from "@mantine/core";
+
 import { Page } from "#components/layout/Page";
 import { BreadcrumbNav } from "#components/navigation/BreadcrumbNav";
 import { EntityTable } from "#components/tables/EntityTable/EntityTable";
@@ -6,11 +10,11 @@ import { useSimpleEntityOperations } from "#hooks/mutations/useSimpleEntityOpera
 import { useCategoryList } from "#hooks/queries";
 import { useFocusedEntity } from "#hooks/state/useFocusedEntity";
 import { useSelectedEntityRows } from "#hooks/state/useSelectedEntityRows";
-import { Button, Drawer, Flex, Loader, TextInput } from "@mantine/core";
 
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
 import type { EntityTableColumn } from "#components/tables/EntityTable/types";
 import { useCreateEntity } from "#hooks/state/useCreateEntity";
+import { useEntityNotifications } from "#hooks/state/useEntityNotifications";
 
 export function CategoriesPage() {
   const categoriesQuery = useCategoryList();
@@ -22,6 +26,12 @@ export function CategoriesPage() {
   >();
   const createForm = useCreateEntity();
   const selectedRowsController = useSelectedEntityRows();
+
+  useEntityNotifications({
+    entity: "categories",
+    operations,
+    deleteManyOperation,
+  });
 
   const handleCreate = async () => {
     await operations.create.mutateAsync({
@@ -39,7 +49,6 @@ export function CategoriesPage() {
     await entityFocusController.clearFocus();
   };
 
-  //TODO: Toast when below fails
   const handleDelete = async (ids: number[]) => {
     await deleteManyOperation.mutateAsync(ids);
     await categoriesQuery.refetch();
