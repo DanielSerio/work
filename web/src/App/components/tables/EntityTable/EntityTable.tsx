@@ -1,16 +1,15 @@
+import { useCallback, useEffect, useState } from "react";
+
 import { useEntityTableColumns } from "#hooks/state/useEntityTableColumns";
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
 import { EntityTableHeader } from "./EntityTableHeader";
 import { calculateColumnGrid } from "./helpers";
-
 import { EntityTableRow, EntityTableRowSkeleton } from "./EntityTableRow";
-import type { EntityTableProps } from "./types";
-import { Button, Chip, Group, Menu, Modal } from "@mantine/core";
-import { Fragment, useCallback, useEffect, useState } from "react";
-
 import { EntityTrashSelectButton } from "./EntityTrashSelectButton";
-import { TbDotsVertical } from "react-icons/tb";
+import { EntityTableColumnsModal } from "./EntityTableColumnsModal";
+import { EntityTableMenu } from "./EntityTableMenu";
+import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
+import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
+import type { EntityTableProps } from "./types";
 
 export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
   entityFocusController,
@@ -31,7 +30,6 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
     useEntityTableColumns<RecordType>();
 
   const gridColumns = calculateColumnGrid<RecordType>(activeColumns);
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [openMenuID, setOpenMenuID] = useState<string | null>(null);
 
   const closeModal = useCallback(() => {
@@ -40,10 +38,9 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
 
   const openModal = useCallback(
     (id: string) => {
-      setMenuIsOpen(false);
       setOpenMenuID(id);
     },
-    [setMenuIsOpen, setOpenMenuID]
+    [setOpenMenuID]
   );
 
   useEffect(() => {
@@ -56,40 +53,13 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
 
   return (
     <>
-      <Modal
-        title={"Table Options"}
-        centered
-        opened={openMenuID === "columns"}
-        onClose={() => closeModal()}
-      >
-        <h4 style={{ margin: "0 0 6px 0", fontWeight: 300 }}>Show Columns</h4>
-        <Chip.Group
-          multiple
-          value={activeColumns.map((v) => String(v.oid ?? v.id))}
-          onChange={(values) => {
-            methods.setFromList(values);
-          }}
-        >
-          <Group justify="center">
-            {allColumns.map((col) => {
-              if (col.header === "🗑️") {
-                return (
-                  <Fragment
-                    key={String(col.oid ?? col.id ?? col.header)}
-                  ></Fragment>
-                );
-              }
-              return (
-                <label key={String(col.oid ?? col.id ?? col.header)}>
-                  <Chip value={String(col.oid ?? col.id ?? col.header)}>
-                    {col.header}
-                  </Chip>
-                </label>
-              );
-            })}
-          </Group>
-        </Chip.Group>
-      </Modal>
+      <EntityTableColumnsModal
+        openMenuID={openMenuID}
+        allColumns={allColumns}
+        activeColumns={activeColumns}
+        setFromList={methods.setFromList}
+        closeModal={closeModal}
+      />
       <div className="table-wrapper entity-table">
         <header>
           <div className="table-toolbar">
@@ -103,26 +73,10 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
                 });
               }}
             />
-            <Menu>
-              <Menu.Target>
-                <Button
-                  size="xs"
-                  variant="subtle"
-                  p={0}
-                  style={{ minWidth: 30 }}
-                >
-                  <TbDotsVertical />
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item onClick={() => openModal("newRecord")}>
-                  Create new
-                </Menu.Item>
-                <Menu.Item onClick={() => openModal("columns")}>
-                  Show Columns
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <EntityTableMenu
+              onNewClick={() => openModal("newRecord")}
+              onColumnsClick={() => openModal("columns")}
+            />
           </div>
           <EntityTableHeader
             columns={activeColumns}
