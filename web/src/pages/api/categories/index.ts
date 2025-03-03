@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { CategoriesTable, db, eq, isNull, not } from "astro:db";
+import { CategoriesTable, db, isNull } from "astro:db";
 import type { AppClientError, AppServerError } from "src/lib/types/error/app-error.types";
 import { parseCodedEntity } from "src/lib/utilities/entity";
 import { createError } from "src/lib/utilities/error";
