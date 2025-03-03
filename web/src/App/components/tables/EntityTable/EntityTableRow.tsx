@@ -60,6 +60,7 @@ export function EntityTableRow<
   );
 }
 
+//TODO: needs the columns so it can render correct count/size
 export function EntityTableRowSkeleton<
   RecordType extends CompanyEntity | CategoryEntity,
 >({

@@ -1,13 +1,34 @@
 import { useCallback, useState } from "react";
 import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
 import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
+import { useForm } from "@mantine/form";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { z } from "zod";
 
 export function useFocusedEntity<
   Entity extends CompanyEntity | CategoryEntity,
   Info = any,
 >() {
   const [original, _setOriginal] = useState<Entity | null>(null);
-  const [entity, _setEntity] = useState<Entity | null>(null);
+  const form = useForm<Pick<Entity, "id" | "code" | "name">>({
+    validate: zodResolver(
+      z.object({
+        id: z.number().int().positive(),
+        code: z
+          .string()
+          .trim()
+          .min(1)
+          .max(12)
+          .transform((v) => v.toUpperCase()),
+        name: z.string().trim().min(2).max(64),
+      })
+    ),
+    initialValues: {
+      id: -1,
+      code: "",
+      name: "",
+    } satisfies Pick<Entity, "id" | "code" | "name">,
+  });
   const [entityInfo, _setEntityInfo] = useState<Info | null>(null);
 
   const focusEntity = useCallback(
@@ -16,29 +37,32 @@ export function useFocusedEntity<
         _setOriginal({ ...Object.freeze(ent) });
       }
 
-      _setEntity(ent);
+      form.reset();
+      form.setFieldValue("id", ent.id);
+      form.setFieldValue("code", ent.code);
+      form.setFieldValue("name", ent.name);
 
       if (info) {
         _setEntityInfo(info);
       }
     },
-    [_setEntity, _setEntityInfo, _setOriginal]
+    [form, _setEntityInfo, _setOriginal]
   );
 
   const clearFocus = useCallback(() => {
-    _setEntity(() => null);
+    form.reset();
     _setEntityInfo(() => null);
-  }, [_setEntity, _setEntityInfo, _setOriginal]);
+  }, [form, _setEntityInfo, _setOriginal]);
 
   const updateEntity = useCallback(
     <Key extends keyof Entity = keyof Entity>(key: Key, value: Entity[Key]) => {
-      _setEntity((curr) => ({ ...curr, [key]: value }) as Entity);
+      form.setFieldValue(String(key), value);
     },
-    [_setEntity]
+    [form]
   );
 
   return {
-    entity,
+    form,
     original,
     entityInfo,
     updateEntity,

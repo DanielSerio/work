@@ -1,21 +1,26 @@
+import { useCallback, useEffect, useState } from "react";
+
 import { useEntityTableColumns } from "#hooks/state/useEntityTableColumns";
-import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
-import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
 import { EntityTableHeader } from "./EntityTableHeader";
 import { calculateColumnGrid } from "./helpers";
-
 import { EntityTableRow, EntityTableRowSkeleton } from "./EntityTableRow";
-import type { EntityTableProps } from "./types";
-import { Chip, Group, Modal } from "@mantine/core";
-import { Fragment, useEffect, useState } from "react";
-import { EntityMenuButton } from "./EntityMenuButton";
 import { EntityTrashSelectButton } from "./EntityTrashSelectButton";
+import { EntityTableColumnsModal } from "./EntityTableColumnsModal";
+import { EntityTableMenu } from "./EntityTableMenu";
+import type { CategoryEntity } from "src/lib/types/models/category/entity.types";
+import type { CompanyEntity } from "src/lib/types/models/company/entity.types";
+import type { EntityTableProps } from "./types";
+import { EntityTableCreateNewModal } from "./EntityTableCreateNewModal";
 
 export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
   entityFocusController,
   selectedRowsController,
   isLoading,
+  entity,
   records,
+  createController,
+  operations,
+  onCreate,
   onDeleteSelected,
 }: EntityTableProps<RecordType>) {
   const {
@@ -30,7 +35,18 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
     useEntityTableColumns<RecordType>();
 
   const gridColumns = calculateColumnGrid<RecordType>(activeColumns);
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [openMenuID, setOpenMenuID] = useState<string | null>(null);
+
+  const closeModal = useCallback(() => {
+    setOpenMenuID(null);
+  }, [setOpenMenuID]);
+
+  const openModal = useCallback(
+    (id: string) => {
+      setOpenMenuID(id);
+    },
+    [setOpenMenuID]
+  );
 
   useEffect(() => {
     if (isSelectMode) {
@@ -42,40 +58,21 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
 
   return (
     <>
-      <Modal
-        title={"Table Options"}
-        centered
-        opened={menuIsOpen}
-        onClose={() => setMenuIsOpen(false)}
-      >
-        <h4 style={{ margin: "0 0 6px 0", fontWeight: 300 }}>Show Columns</h4>
-        <Chip.Group
-          multiple
-          value={activeColumns.map((v) => String(v.oid ?? v.id))}
-          onChange={(values) => {
-            methods.setFromList(values);
-          }}
-        >
-          <Group justify="center">
-            {allColumns.map((col) => {
-              if (col.header === "🗑️") {
-                return (
-                  <Fragment
-                    key={String(col.oid ?? col.id ?? col.header)}
-                  ></Fragment>
-                );
-              }
-              return (
-                <label key={String(col.oid ?? col.id ?? col.header)}>
-                  <Chip value={String(col.oid ?? col.id ?? col.header)}>
-                    {col.header}
-                  </Chip>
-                </label>
-              );
-            })}
-          </Group>
-        </Chip.Group>
-      </Modal>
+      <EntityTableCreateNewModal
+        operations={operations}
+        entity={entity}
+        openMenuID={openMenuID}
+        onCreate={onCreate}
+        createForm={createController}
+        closeModal={closeModal}
+      />
+      <EntityTableColumnsModal
+        openMenuID={openMenuID}
+        allColumns={allColumns}
+        activeColumns={activeColumns}
+        setFromList={methods.setFromList}
+        closeModal={closeModal}
+      />
       <div className="table-wrapper entity-table">
         <header>
           <div className="table-toolbar">
@@ -89,7 +86,10 @@ export function EntityTable<RecordType extends CompanyEntity | CategoryEntity>({
                 });
               }}
             />
-            <EntityMenuButton onClick={() => setMenuIsOpen(true)} />
+            <EntityTableMenu
+              onNewClick={() => openModal("newRecord")}
+              onColumnsClick={() => openModal("columns")}
+            />
           </div>
           <EntityTableHeader
             columns={activeColumns}

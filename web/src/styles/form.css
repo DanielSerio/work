@@ -1,0 +1,19 @@
+.form-error {
+  color: var(--mantine-color-red-5);
+  border: 1px solid;
+  line-height: 36px;
+  display: block;
+  margin: 3px 0 21px;
+  padding: 0 12px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px -2px black;
+}
+
+.form-error::before {
+  display: inline-grid;
+  place-content: center;
+  line-height: 0;
+  content: "⚠ ";
+  padding-right: 1ch;
+}

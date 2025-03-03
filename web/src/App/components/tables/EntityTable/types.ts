@@ -1,3 +1,5 @@
+import type { useSimpleEntityOperations } from "#hooks/mutations/useSimpleEntityOperations";
+import type { useCreateEntity } from "#hooks/state/useCreateEntity";
 import type { useFocusedEntity } from "#hooks/state/useFocusedEntity";
 import type { useSelectedEntityRows } from "#hooks/state/useSelectedEntityRows";
 import type { AreaHTMLAttributes } from "react";
@@ -25,8 +27,12 @@ export type EntityTableColumn<RecordType extends CompanyEntity | CategoryEntity>
 export type EntityTableProps<RecordType extends CompanyEntity | CategoryEntity> = {
   isLoading?: boolean;
   records?: RecordType[];
+  entity: 'categories' | 'companies';
   entityFocusController: ReturnType<typeof useFocusedEntity<RecordType, EntityTableColumn<RecordType>>>;
   selectedRowsController: ReturnType<typeof useSelectedEntityRows>;
+  createController: ReturnType<typeof useCreateEntity>;
+  operations: ReturnType<typeof useSimpleEntityOperations>;
+  onCreate: () => Promise<void>;
   onDeleteSelected: (ids: number[]) => void;
 };
 

@@ -32,8 +32,8 @@ export function useEntityTableColumns<
       width: 20,
       transformValue(value) {
         return formatDistance(
+          new Date(value.replace(/[T]/g, " ")),
           new Date(),
-          new Date(value.replace(/[TZ]/g, " ")),
           {
             addSuffix: true,
           }
@@ -50,8 +50,8 @@ export function useEntityTableColumns<
         }
 
         return formatDistance(
+          new Date(value.replace(/[T]/g, " ")),
           new Date(),
-          new Date(value.replace(/[TZ]/g, " ")),
           {
             addSuffix: true,
           }

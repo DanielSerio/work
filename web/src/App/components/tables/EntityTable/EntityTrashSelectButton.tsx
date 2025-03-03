@@ -1,6 +1,6 @@
-import { getLazyIcon } from "#components/ui/LazyIcon";
-import { Button, Loader } from "@mantine/core";
-import { lazy, Suspense, type ButtonHTMLAttributes } from "react";
+import { Button } from "@mantine/core";
+import { type ButtonHTMLAttributes } from "react";
+import { TbTrash, TbX } from "react-icons/tb";
 
 interface TrashSelectButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,9 +16,6 @@ export function EntityTrashSelectButton({
   onCancel,
   isSelectMode,
 }: TrashSelectButtonProps) {
-  const Icon = lazy(getLazyIcon("IconTrash"));
-  const XIcon = lazy(getLazyIcon("IconX"));
-
   if (!isSelectMode) {
     return (
       <Button
@@ -29,9 +26,7 @@ export function EntityTrashSelectButton({
         color="red"
         onClick={onStart}
       >
-        <Suspense fallback={<Loader color="grey" size="xs" />}>
-          <Icon color={"grey"} />
-        </Suspense>
+        <TbTrash color={"grey"} size={14} />
       </Button>
     );
   }
@@ -40,15 +35,11 @@ export function EntityTrashSelectButton({
     <>
       <Button color="grey" size="sm" p={6} variant="subtle" onClick={onCancel}>
         <div style={{ paddingRight: "0.5ch" }}>Cancel</div>
-        <Suspense fallback={<Loader color="grey" size="xs" />}>
-          <XIcon color={"grey"} size={14} />
-        </Suspense>
+        <TbX color={"grey"} size={14} />
       </Button>
       <Button color="red" size="sm" p={6} variant="subtle" onClick={onExecute}>
         <div style={{ paddingRight: "0.5ch" }}>Confirm Delete</div>
-        <Suspense fallback={<Loader color="grey" size="xs" />}>
-          <Icon color={"pink"} size={14} />
-        </Suspense>
+        <TbTrash color={"pink"} size={14} />
       </Button>
     </>
   );
