@@ -2,12 +2,22 @@ import { EntitySelect, TimeField } from "#components/controls";
 import type { useTimesheetState } from "#hooks/state/useTimesheetState";
 import { useEffect } from "react";
 
+export type TimesheetRowAddRecord = {
+  companyId: string;
+  categoryId: string;
+  startTime: string;
+  endTime: string;
+  note: null | string;
+};
+
 export function TimesheetAddRow({
   entryDate,
   controller,
+  onSubmit,
 }: {
   entryDate: string;
   controller: ReturnType<typeof useTimesheetState>["addForm"];
+  onSubmit: (values: TimesheetRowAddRecord) => void;
 }) {
   useEffect(() => {
     controller.validate();
@@ -51,7 +61,7 @@ export function TimesheetAddRow({
           onChange={(e) => {
             controller.setFieldValue(
               "startTime",
-              `${entryDate} ${e.target.value}:00.000Z`
+              `${entryDate} ${e.target.value}:00.000`
             );
           }}
         />
@@ -61,10 +71,17 @@ export function TimesheetAddRow({
             console.info(e.target.value);
             controller.setFieldValue(
               "endTime",
-              `${entryDate} ${e.target.value}:00.000Z`
+              `${entryDate} ${e.target.value}:00.000`
             );
           }}
         />
+        <button
+          onClick={() =>
+            onSubmit(controller.values as unknown as TimesheetRowAddRecord)
+          }
+        >
+          Add
+        </button>
       </div>
       <div>
         {!!controller.errors && (

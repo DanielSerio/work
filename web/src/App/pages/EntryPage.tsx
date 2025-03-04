@@ -18,7 +18,21 @@ export function EntryPage() {
           View Report
         </Button>
       </Flex>
-      <TimesheetAddRow entryDate="2025-03-03" controller={addForm} />
+      <TimesheetAddRow
+        entryDate="2025-03-04"
+        controller={addForm}
+        onSubmit={(values) => {
+          const parsed = {
+            companyId: +values.companyId,
+            categoryId: +values.categoryId,
+            startTime: new Date(values.startTime),
+            endTime: new Date(values.endTime),
+            note: values.note,
+          };
+
+          console.log(parsed);
+        }}
+      />
     </Page>
   );
 }
