@@ -11,12 +11,6 @@ export function TimesheetAddRow({
 }) {
   useEffect(() => {
     controller.validate();
-    console.info([
-      controller.errors.companyId,
-      controller.errors.categoryId,
-      controller.errors.startTime,
-      controller.errors.endTime,
-    ]);
   }, [
     controller.values.companyId,
     controller.values.categoryId,

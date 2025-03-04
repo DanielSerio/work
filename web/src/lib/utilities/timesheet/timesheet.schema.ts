@@ -16,9 +16,17 @@ export const getTimesheetAddSchema = () => {
     return null;
   };
 
+  const transformId = (v: number | null) => {
+    if (v === null || v < 1) {
+      return null;
+    }
+
+    return ~~v;
+  };
+
   return z.object({
-    companyId: z.number().int().positive().nullable(),
-    categoryId: z.number().int().positive().nullable(),
+    companyId: z.coerce.number().int().positive().nullable().transform(transformId),
+    categoryId: z.coerce.number().int().positive().nullable().transform(transformId),
     startTime: z.coerce.date().nullable().transform(transformTime),
     endTime: z.coerce.date().nullable().transform(transformTime),
     note: z.string().nullable()
