@@ -40,10 +40,10 @@ function useEntitySelectOptions(entity: "companies" | "categories") {
     option,
   }) => {
     return (
-      <Group>
-        <Text>{listData[option.value]?.code}</Text>
-        <Text>|</Text>
-        <Text>{listData[option.value]?.name}</Text>
+      <Group gap={"xs"}>
+        <Text size="xs">{listData[option.value]?.code}</Text>
+        <Text size="xs">|</Text>
+        <Text size="xs">{listData[option.value]?.name}</Text>
       </Group>
     );
   };
@@ -56,15 +56,18 @@ function useEntitySelectOptions(entity: "companies" | "categories") {
 }
 
 function EntitySelectComponent(
-  { entity, showLabel, ...props }: EntitySelectProps,
+  { entity, showLabel, value, ...props }: EntitySelectProps,
   ref?: ForwardedRef<HTMLInputElement>
 ) {
   const { listData, list, renderAutocompleteOption } =
     useEntitySelectOptions(entity);
 
+  let inputValue = value ?? "";
+
   return (
     <Autocomplete
       {...props}
+      value={inputValue}
       size="xs"
       ref={ref}
       label={

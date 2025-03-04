@@ -1,6 +1,6 @@
 import { column, defineDb, defineTable, NOW } from 'astro:db';
-import type { CompanyEntity } from '../#lib/types/models/company/entity.types';
-import type { CategoryEntity } from '../#lib/types/models/category/entity.types';
+import type { CompanyEntity } from '#lib/types/models/company/entity.types';
+import type { CategoryEntity } from '#lib/types/models/category/entity.types';
 
 
 const PrefsTable = defineTable({
